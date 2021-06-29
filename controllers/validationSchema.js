@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const postSchema = Joi.object({
+const postValidSchema = Joi.object({
   name: Joi.string()
     .alphanum()
     .min(2)
@@ -13,7 +13,7 @@ const postSchema = Joi.object({
     .required()
 })
 
-const putSchema = Joi.object({
+const putValidSchema = Joi.object({
   name: Joi.string()
     .alphanum()
     .min(2)
@@ -24,6 +24,6 @@ const putSchema = Joi.object({
 }).or('name', 'email', 'phone')
 
 module.exports = {
-  postSchema,
-  putSchema
+  postValidSchema,
+  putValidSchema
 }

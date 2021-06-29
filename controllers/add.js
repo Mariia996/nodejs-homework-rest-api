@@ -1,10 +1,10 @@
 const { jsonReader } = require('../utils')
 const { addContact } = jsonReader
-const { postSchema } = require('./validationSchema')
+const { postValidSchema } = require('./validationSchema')
 
 const add = async (req, res, next) => {
   const newContact = req.body
-  const { error } = postSchema.validate(newContact)
+  const { error } = postValidSchema.validate(newContact)
   if (error) {
     return res.status(400).json({
       status: 'error',
