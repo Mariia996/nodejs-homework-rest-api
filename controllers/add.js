@@ -1,12 +1,17 @@
-// const { jsonReader } = require('../utils')
-// const { addContact } = jsonReader
-// const { postValidSchema } = require('./validationSchema')
 const { Contact } = require('../models')
+const { validationSchemaAdd } = require('../utils/validationSchemas')
 
 const add = async (req, res, next) => {
   const newContact = req.body
   try {
-    // const addedContact = await addContact(newContact)
+    const { error } = validationSchemaAdd.validate(newContact)
+    if (error) {
+      res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'Bad request'
+      })
+    }
     const result = await Contact.create(newContact)
     res.json({
       status: 'Success',
