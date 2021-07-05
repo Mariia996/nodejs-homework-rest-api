@@ -1,14 +1,21 @@
-const { jsonReader } = require('../utils')
-const { removeContact } = jsonReader
+const { Contact } = require('../models')
+const mongoose = require('mongoose')
 
 const remove = async (req, res, next) => {
   const { contactId } = req.params
   try {
-    const deletedContact = await removeContact(parseInt(contactId))
-    res.json({
-      status: 'Contact successfully deleted',
-      code: 200,
-      result: deletedContact
+    const validationContactId = mongoose.isValidObjectId(contactId)
+    if (!validationContactId) {
+      res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'Contact id is not a string'
+      })
+    }
+    await Contact.findByIdAndDelete(contactId)
+    res.status(204).json({
+      status: 'success',
+      code: 204,
     })
   } catch (error) {
     next(error)

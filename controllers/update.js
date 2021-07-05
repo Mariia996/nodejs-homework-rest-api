@@ -1,21 +1,29 @@
-const { jsonReader } = require('../utils')
-const { updateContact } = jsonReader
-const { putValidSchema } = require('./validationSchema')
+const { validationSchemaUp } = require('../utils/validationSchemas')
+const { Contact } = require('../models')
+const mongoose = require('mongoose')
 
 const update = async (req, res, next) => {
   const { contactId } = req.params
   const updatedContact = req.body
-  const { error } = putValidSchema.validate(updatedContact)
   try {
+    const { error } = validationSchemaUp.validate(updatedContact)
     if (error) {
       return res.status(400).json({
         status: 'error',
         code: 400,
-        result: 'Missing required fields'
+        message: 'Bad request'
       })
     }
-    const contact = await updateContact(parseInt(contactId), updatedContact)
-    if (!contact) {
+    const validationContactId = mongoose.isValidObjectId(contactId)
+    if (!validationContactId) {
+      res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'Contact id is not a string'
+      })
+    }
+    const result = await Contact.findByIdAndUpdate(contactId, updatedContact)
+    if (!result) {
       return res.status(404).json({
         status: 'error',
         code: 404,
@@ -26,7 +34,7 @@ const update = async (req, res, next) => {
       status: 'Contact seccessfully updated',
       code: 200,
       data: {
-        result: contact
+        result
       }
     })
   } catch (error) {

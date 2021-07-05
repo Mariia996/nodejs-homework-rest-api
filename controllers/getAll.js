@@ -1,14 +1,14 @@
-const { jsonReader } = require('../utils')
-const { listContacts } = jsonReader
+const { Contact } = require('../models')
 
-const getAll = async (_, res, next) => {
+const getAll = async (req, res, next) => {
+  const { query } = req
   try {
-    const contacts = await listContacts()
+    const result = await Contact.find(query)
     res.json({
       status: 'success',
       code: 200,
       data: {
-        result: contacts
+        result
       }
     })
   } catch (error) {
