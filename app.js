@@ -25,8 +25,13 @@ app.use((_, res) => {
   })
 })
 
-app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
+app.use((err, _, res, __) => {
+  const { code = 500, message = 'Server error' } = err
+  res.status(code).json({
+    status: 'fail',
+    code,
+    message
+  })
 })
 
 module.exports = app

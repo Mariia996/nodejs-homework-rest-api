@@ -1,9 +1,19 @@
+const { validationSchemaUpStatus } = require('../utils/validationSchemas')
 const { Contact } = require('../models')
 const mongoose = require('mongoose')
 
-const getOne = async (req, res, next) => {
+const updateStatus = async (req, res, next) => {
   const { contactId } = req.params
+  const { body } = req
   try {
+    const { error } = validationSchemaUpStatus.validate(body)
+    if (error) {
+      res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'missing field favorite'
+      })
+    }
     const validationContactId = mongoose.isValidObjectId(contactId)
     if (!validationContactId) {
       res.status(400).json({
@@ -12,8 +22,8 @@ const getOne = async (req, res, next) => {
         message: 'Contact id is not a string'
       })
     }
-    const result = await Contact.findById(contactId)
-    if (!result) {
+    const updatedContact = await Contact.findByIdAndUpdate(contactId, body)
+    if (!updatedContact) {
       return res.status(404).json({
         status: 'error',
         code: 404,
@@ -23,11 +33,13 @@ const getOne = async (req, res, next) => {
     res.json({
       status: 'success',
       code: 200,
-      data: result
+      data: {
+        updatedContact
+      }
     })
   } catch (error) {
     next(error)
   }
 }
 
-module.exports = getOne
+module.exports = updateStatus

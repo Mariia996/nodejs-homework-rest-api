@@ -13,4 +13,6 @@ router.delete('/:contactId', ctrl.remove)
 
 router.put('/:contactId', express.json(), ctrl.update)
 
+router.patch('/:contactId/favorite', express.json(), ctrl.updateStatus)
+
 module.exports = router
