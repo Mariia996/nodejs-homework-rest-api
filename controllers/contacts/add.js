@@ -1,4 +1,4 @@
-const { jsonReader } = require('../utils')
+const { jsonReader } = require('../../utils')
 const { addContact } = jsonReader
 const { postSchema } = require('./validationSchema')
 
