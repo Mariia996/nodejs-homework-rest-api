@@ -9,7 +9,8 @@ const { DB_HOST } = process.env
 mongoose.connect(DB_HOST, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useFindAndModify: false
 }).then(() => {
   app.listen(PORT, () => {
     console.log('Database connection successful')

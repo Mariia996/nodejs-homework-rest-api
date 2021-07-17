@@ -1,5 +1,5 @@
-const { Contact } = require('../models')
 const mongoose = require('mongoose')
+const { contacts: service } = require('../../services')
 
 const getOne = async (req, res, next) => {
   const { contactId } = req.params
@@ -12,7 +12,7 @@ const getOne = async (req, res, next) => {
         message: 'Contact id is not a string'
       })
     }
-    const result = await Contact.findById(contactId)
+    const result = await service.getById(contactId)
     if (!result) {
       return res.status(404).json({
         status: 'error',

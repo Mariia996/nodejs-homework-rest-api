@@ -1,4 +1,4 @@
-const { Contact } = require('../models')
+const { contacts: service } = require('../../services')
 const mongoose = require('mongoose')
 
 const remove = async (req, res, next) => {
@@ -12,7 +12,7 @@ const remove = async (req, res, next) => {
         message: 'Contact id is not a string'
       })
     }
-    await Contact.findByIdAndDelete(contactId)
+    await service.remove(contactId)
     res.status(204).json({
       status: 'success',
       code: 204,
