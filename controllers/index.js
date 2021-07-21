@@ -1,17 +1,9 @@
-const getAll = require('./getAll')
-const getOne = require('./getOne')
-const remove = require('./remove')
-const add = require('./add')
-const update = require('./update')
-const updateStatus = require('./updateStatus')
+const auth = require('./auth')
+const contacts = require('./contacts')
+const users = require('./users')
 
-const contacts = {
-  getAll,
-  getOne,
-  remove,
-  add,
-  update,
-  updateStatus
+module.exports = {
+  auth,
+  contacts,
+  users
 }
-
-module.exports = { contacts }

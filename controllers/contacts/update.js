@@ -1,17 +1,17 @@
-const { validationSchemaUpStatus } = require('../utils/validationSchemas')
-const { Contact } = require('../models')
+const { contacts } = require('../../utils/validationSchemas')
 const mongoose = require('mongoose')
+const { contacts: service } = require('../../services')
 
-const updateStatus = async (req, res, next) => {
+const update = async (req, res, next) => {
   const { contactId } = req.params
-  const { body } = req
+  const updatedContact = req.body
   try {
-    const { error } = validationSchemaUpStatus.validate(body)
+    const { error } = contacts.validationSchemaUp.validate(updatedContact)
     if (error) {
-      res.status(400).json({
+      return res.status(400).json({
         status: 'error',
         code: 400,
-        message: 'missing field favorite'
+        message: 'Bad request'
       })
     }
     const validationContactId = mongoose.isValidObjectId(contactId)
@@ -22,8 +22,8 @@ const updateStatus = async (req, res, next) => {
         message: 'Contact id is not a string'
       })
     }
-    const updatedContact = await Contact.findByIdAndUpdate(contactId, body)
-    if (!updatedContact) {
+    const result = await service.update(contactId, updatedContact)
+    if (!result) {
       return res.status(404).json({
         status: 'error',
         code: 404,
@@ -31,10 +31,10 @@ const updateStatus = async (req, res, next) => {
       })
     }
     res.json({
-      status: 'success',
+      status: 'Contact seccessfully updated',
       code: 200,
       data: {
-        updatedContact
+        result
       }
     })
   } catch (error) {
@@ -42,4 +42,4 @@ const updateStatus = async (req, res, next) => {
   }
 }
 
-module.exports = updateStatus
+module.exports = update

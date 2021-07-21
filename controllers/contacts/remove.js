@@ -1,7 +1,7 @@
-const { Contact } = require('../models')
+const { contacts: service } = require('../../services')
 const mongoose = require('mongoose')
 
-const getOne = async (req, res, next) => {
+const remove = async (req, res, next) => {
   const { contactId } = req.params
   try {
     const validationContactId = mongoose.isValidObjectId(contactId)
@@ -12,22 +12,14 @@ const getOne = async (req, res, next) => {
         message: 'Contact id is not a string'
       })
     }
-    const result = await Contact.findById(contactId)
-    if (!result) {
-      return res.status(404).json({
-        status: 'error',
-        code: 404,
-        message: 'Contact not found'
-      })
-    }
-    res.json({
+    await service.remove(contactId)
+    res.status(204).json({
       status: 'success',
-      code: 200,
-      data: result
+      code: 204,
     })
   } catch (error) {
     next(error)
   }
 }
 
-module.exports = getOne
+module.exports = remove
