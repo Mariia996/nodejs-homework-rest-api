@@ -13,8 +13,8 @@ router.post('/', express.json(), useAuth, ctrl.add)
 
 router.delete('/:contactId', useAuth, ctrl.remove)
 
-router.put('/:contactId', useAuth, express.json(), ctrl.update)
+router.put('/:contactId', express.json(), useAuth, ctrl.update)
 
-router.patch('/:contactId/favorite', useAuth, express.json(), ctrl.updateStatus)
+router.patch('/:contactId/favorite', express.json(), useAuth, ctrl.updateStatus)
 
 module.exports = router

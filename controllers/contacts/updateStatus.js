@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const { contacts: service } = require('../../services')
 
 const updateStatus = async (req, res, next) => {
+  const { user } = req
   const { contactId } = req.params
   const { body } = req
   try {
@@ -22,7 +23,7 @@ const updateStatus = async (req, res, next) => {
         message: 'Contact id is not a string'
       })
     }
-    const updatedContact = await service.update(contactId, body)
+    const updatedContact = await service.update({ _id: contactId, owner: user._id }, body)
     if (!updatedContact) {
       return res.status(404).json({
         status: 'error',

@@ -27,7 +27,8 @@ const register = async (req, res, next) => {
       message: 'Successfully added',
       user: {
         email: data.email,
-        subscription: 'starter'
+        subscription: data.subscription,
+        avatarUrl: data.avatarURL
       }
     })
   } catch (error) {

@@ -2,6 +2,7 @@ const { contacts: service } = require('../../services')
 const mongoose = require('mongoose')
 
 const remove = async (req, res, next) => {
+  const { user } = req
   const { contactId } = req.params
   try {
     const validationContactId = mongoose.isValidObjectId(contactId)
@@ -12,7 +13,7 @@ const remove = async (req, res, next) => {
         message: 'Contact id is not a string'
       })
     }
-    await service.remove(contactId)
+    await service.remove({ _id: contactId, owner: user._id })
     res.status(204).json({
       status: 'success',
       code: 204,

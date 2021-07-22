@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const { contacts: service } = require('../../services')
 
 const getOne = async (req, res, next) => {
+  const { user } = req
   const { contactId } = req.params
   try {
     const validationContactId = mongoose.isValidObjectId(contactId)
@@ -12,7 +13,7 @@ const getOne = async (req, res, next) => {
         message: 'Contact id is not a string'
       })
     }
-    const result = await service.getById(contactId)
+    const result = await service.getOne({ _id: contactId, owner: user._id })
     if (!result) {
       return res.status(404).json({
         status: 'error',

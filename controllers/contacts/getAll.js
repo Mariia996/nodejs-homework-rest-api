@@ -1,9 +1,9 @@
 const { contacts: service } = require('../../services')
 
 const getAll = async (req, res, next) => {
-  const { query } = req
+  const { query, user } = req
   try {
-    const { docs, totalDocs, limit, page, totalPages } = await service.getAll(query)
+    const { docs, totalDocs, limit, page, totalPages } = await service.getAll(user._id, query)
     res.json({
       status: 'success',
       code: 200,
