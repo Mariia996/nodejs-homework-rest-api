@@ -1,7 +1,9 @@
 const { Contact } = require('../models')
 
-const getAll = ({ page = 1, limit = 10, }) => {
-  return Contact.paginate({}, {
+const getAll = (userId, { page = 1, limit = 10, }) => {
+  return Contact.paginate({
+    owner: userId,
+  }, {
     page,
     limit,
   })
@@ -11,16 +13,12 @@ const getOne = (filter) => {
   return Contact.findOne(filter)
 }
 
-const getById = (id) => {
-  return Contact.findById(id)
-}
-
 const add = (contact) => {
   return Contact.create(contact)
 }
 
 const remove = (id) => {
-  return Contact.findByIdAndDelete(id)
+  return Contact.findByIdAndRemove(id)
 }
 
 const update = (id, contact) => {
@@ -30,7 +28,6 @@ const update = (id, contact) => {
 const contacts = {
   getAll,
   getOne,
-  getById,
   add,
   remove,
   update

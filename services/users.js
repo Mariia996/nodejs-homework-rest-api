@@ -18,9 +18,14 @@ const update = (id, obj) => {
   return User.findByIdAndUpdate(id, obj)
 }
 
+const updateAvatar = (id, avatar, idCloudAvatar) => {
+  return User.findByIdAndUpdate(id, { avatarURL: avatar, idCloudAvatar })
+}
+
 module.exports = {
   getOne,
   getById,
   add,
-  update
+  update,
+  updateAvatar
 }
