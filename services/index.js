@@ -3,5 +3,5 @@ const contacts = require('./contacts')
 
 module.exports = {
   users,
-  contacts
+  contacts,
 }
