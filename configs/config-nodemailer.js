@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 const { EMAIL_PASSWORD } = process.env
 
 const config = {

@@ -23,7 +23,7 @@ const register = async (req, res, next) => {
         message: 'Already registered'
       })
     }
-    const emailBody = textRegisterMail(verifyToken, email)
+    const emailBody = await textRegisterMail(verifyToken, email)
     await sendMail({ email, subject: 'Confirm registration', emailBody })
     const data = await service.add({ email, password, verifyToken })
     res.status(201).json({

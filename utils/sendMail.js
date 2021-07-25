@@ -14,7 +14,8 @@ const sendMail = async ({ email, subject, text }) => {
     const result = await transporter.sendMail(emailOptions)
     return result
   } catch (error) {
-    throw new Error(503, 'Service Unavailable')
+    console.log(error)
+    throw new Error('Service Unavailable')
   }
 }
 
