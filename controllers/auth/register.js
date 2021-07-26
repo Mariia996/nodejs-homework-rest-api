@@ -1,7 +1,10 @@
+const { nanoid } = require('nanoid')
 const { users: service } = require('../../services')
 const { users } = require('../../utils/validationSchemas')
+const { sendMail, textRegisterMail } = require('../../utils')
 
 const register = async (req, res, next) => {
+  const verifyToken = nanoid()
   const { email, password } = req.body
   try {
     const { error } = users.validationSchemaAuth.validate({ email, password })
@@ -20,7 +23,9 @@ const register = async (req, res, next) => {
         message: 'Already registered'
       })
     }
-    const data = await service.add({ email, password })
+    const emailBody = await textRegisterMail(verifyToken, email)
+    await sendMail({ email, subject: 'Confirm registration', emailBody })
+    const data = await service.add({ email, password, verifyToken })
     res.status(201).json({
       status: 'success',
       code: 201,

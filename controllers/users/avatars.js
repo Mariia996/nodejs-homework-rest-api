@@ -6,7 +6,7 @@ const avatars = async (req, res, next) => {
   const { _id } = req.user
   const filePath = req.file.path
   try {
-    const oldAvatar = await service.getById(_id)
+    const oldAvatar = await service.getById(_id)``
     const { secure_url: avatar, public_id: idCloudAvatar } = await uploadFile(filePath)
     await deleteFile(oldAvatar.idCloudAvatar)
     const data = await service.updateAvatar(_id, avatar, idCloudAvatar)

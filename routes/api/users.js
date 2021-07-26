@@ -14,4 +14,8 @@ router.patch('/', useAuth, express.json(), ctrl.updateSubscription)
 
 router.patch('/avatars', useAuth, upload.single('avatar'), ctrl.avatars)
 
+router.post('/verify', express.json(), ctrl.reVerify)
+
+router.get('/verify/:verificationToken', ctrl.verify)
+
 module.exports = router
